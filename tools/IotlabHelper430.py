@@ -297,14 +297,16 @@ TypeToFirmware = {
     "riot":
         "XXX",
     "openwsn":
-        "../openwsn/openwsn-fw/projects/common/03oos_openwsn_prog",
+        "../openwsn/openwsn-fw/projects/common/03oos_openwsn_prog.ihex",
     "openwsn-sink":
-        "../openwsn/openwsn-fw-sink/projects/common/03oos_openwsn_prog",
+        "../openwsn/openwsn-fw-sink/projects/common/03oos_openwsn_prog.ihex",
     "hipera": # (an in-house stack)
         "/home/user/HgRep/hipera/platform/freertos/openlab-hiper/build/bin/test_hipera.elf"
 }
 
-
+#../openwsn/openwsn-fw/projects/common/03oos_openwsn_prog
+#"../openwsn/openwsn-fw-sink/projects/common/03oos_openwsn_prog
+#openwsn/openwsn-fw/firmware/openos/projects/common/01bsp_uart_prog.ihex
 #SnifferFwFileName = "PreCompiled/foren6_sniffer.elf"
 # TunslipBinFileName = "sudo ../local/bin/tunslip6 aaaa::1/64 -L -a localhost -p 2000"
 
@@ -429,11 +431,12 @@ class IotlabPersistentExp(IotlabExp):
         assert nodeTypeInfo["firmware"] == firmwareFileName
         self.savePersistentInfo(expInfo) # XXX: maybe not now
 
-    def ensureFlashedNodes(self, nodeTypeName,  
+    def ensureFlashedNodes(self, nodeTypeName, 
                            nodeCount, initialNodeList):
         expInfo = self.getPersistentInfo()
         #if nodeTypeName not in expInfo:
-        firmwareFileName = TypeToFirmware[nodeTypeName] 
+        firmwareFileName = TypeToFirmware[nodeTypeName]
+        
         flashedNodeList, currentNodeList = self.safeFlashNodes(
             firmwareFileName, nodeCount, initialNodeList)
 
@@ -467,11 +470,11 @@ class IotlabPersistentExp(IotlabExp):
 #--------------------------------------------------
 # Standard firmware (sniffer)
 
-NameEmptyProfileM3 = "default_m3_rest"
+NameEmptyProfileM3 = "default_430_rest"
 
 EmptyProfileM3 = {
     "consumption": None,
-    "nodearch": "m3",
+    "nodearch": "wsn430",
     "power": "dc", 
     "profilename": NameEmptyProfileM3,
     "radio": None
@@ -535,7 +538,7 @@ class IotlabHelper:
         expInfoList = self.getExpInfoList(stateList)
         return [self._makeExp(expInfo["id"]) for expInfo in expInfoList]
 
-    def startExp(self, name, duration, site, nbNode, archi="m3:at86rf231",
+    def startExp(self, name, duration, site, nbNode, archi="wsn430:cc2420",
                  profileName=None):
         self.ensureExpLimit() # sanity check - avoid bugs and 'fork bombs'
 
@@ -725,7 +728,7 @@ def parseNodeList(listStr):
 
 if False:
     helper = IotlabHelper()
-    aliveStr = helper.getResourcesId("grenoble")[0]["grenoble"]["m3"]["Alive"]
+    aliveStr = helper.getResourcesId("grenoble")[0]["grenoble"]["wsn430"]["Alive"]
     print aliveStr
     print parseNodeList(aliveStr)
     print len(parseNodeList(aliveStr))
@@ -798,9 +801,10 @@ if __name__ == "__main__":
     iotlab = IotlabHelper()
     
     #pprint.pprint(iotlab.getResources("grenoble"))
-    #pprint.pprint(iotlab.getResourcesId("grenoble"))
-    #print "Alive at grenoble:", len(iotlab.getAliveList(
-    #        "grenoble", "m3:at86rf231"))
+    pprint.pprint(iotlab.getResourcesId("rennes"))
+    print "Alive at Rennes:", len(iotlab.getAliveList(
+            "rennes", "wsn430:cc2420"))
+    #m3:at86rf231
     #open("grenoble-res.pydat","w").write(
     #    repr(iotlab.getResources("grenoble")))
     #open("grenoble-res-id.pydat","w").write(

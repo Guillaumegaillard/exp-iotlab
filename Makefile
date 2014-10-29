@@ -548,10 +548,10 @@ build-sniffer-zep-a8-m3:
 #---------------------------------------------------------------------------
 # You need to have a real node connected through USB to do this:
 
-FLASHCMD=${USE_OPENWSN_DEFS} && cd openwsn/openwsn-fw/firmware/openos/bsp/boards/iot-lab_M3/tools && ./flash.sh
+FLASHCMD=${USE_OPENWSN_DEFS} && cd openwsn/openwsn-fw/bsp/boards/iot-lab_M3/tools && ./flash.sh
 
 direct-flash-openwsn-m3: ensure-openwsn-m3
-	${FLASHCMD} ../../../../../../firmware/openos/projects/common/03oos_openwsn_prog
+	${FLASHCMD} ../../../../../../projects/common/03oos_openwsn_prog
 
 IOTLAB_EX1=iot-lab/parts/openlab/build.m3/bin/example_soft_timer_delay.elf
 
